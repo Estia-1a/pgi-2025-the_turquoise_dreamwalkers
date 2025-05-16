@@ -11,6 +11,20 @@
  * When the feature is totally implemented, your commit message must contain "close #n".
  */
 
+void dimension(const char *filename){
+    // unsigned char **data;int *width;int *height;int *channel_count;
+    int width = 0;
+    int height = 0;
+    unsigned char *image_data = NULL;
+    int channel_count = 0;
+    int a = 0;
+    if(a != read_image_data(filename,&image_data,&width,&height,&channel_count)){
+        printf("dimension: %d %d",width,height);
+    }
+    else{
+        printf("Read file Error!");
+    }
+}
 void helloWorld() {
     printf("Hello World !");
 }

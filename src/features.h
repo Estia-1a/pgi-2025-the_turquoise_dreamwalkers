@@ -3,5 +3,5 @@
 
 
 void helloWorld();
-
+void dimension(const char *filename);
 #endif
