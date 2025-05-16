@@ -1,4 +1,4 @@
-name: Import issues from Template
+name: Import issues from Template X
 
 on:
   fork: {}
