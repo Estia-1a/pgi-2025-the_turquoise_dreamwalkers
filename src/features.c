@@ -4,7 +4,7 @@
 #include "features.h"
 #include "utils.h"
 #include <stdlib.h>
-
+#include <math.h>
 /**
  * @brief Here, you have to code features of the project.
  * Do not forget to commit regurlarly your changes.
@@ -12,16 +12,74 @@
  * When the feature is totally implemented, your commit message must contain "close #n".
  */
 
+void scale_bilinear(char *source_path,float scale){
+    int width = 0;
+    int height = 0;
+    unsigned char *image_data = NULL;
+    int channel_count = 0;  
+    if(read_image_data(source_path,&image_data,&width,&height,&channel_count) != 0){
+        int out_width = (int)(width * scale);
+        int out_height = (int)(height * scale);
+        unsigned char *output_data = malloc(out_width * out_height * channel_count);
+        for(int y = 0; y < out_height; y++){
+            for(int x = 0 ; x< out_width; x++){
+                float x_src = x / scale;
+                float y_src = y / scale;
+
+                int x0 = (int)floor(x_src);
+                int x1 = x0 + 1;
+                int y0 = (int)floor(y_src);
+                int y1 = y0 + 1;
+
+                if (x1 >= width){
+                    x1 = width - 1;
+                }
+                if (y1 >= height){
+                    y1 = height - 1;
+                }
+                if (x0 < 0){
+                    x0 = 0;
+                }
+                if (y0 < 0){
+                    y0 = 0;
+                }
+                float dx = x_src - x0;
+                float dy = y_src - y0;
+
+                int out_index = (y * out_width + x) * channel_count;
+                for(int c = 0;c< channel_count; c++){
+                    unsigned char pixle00 = image_data[(y0 * width + x0) * channel_count +c];
+                    unsigned char pixel10 = image_data[(y0 * width + x1) * channel_count + c];
+                    unsigned char pixel01 = image_data[(y1 * width + x0) * channel_count + c];
+                    unsigned char pixel11 = image_data[(y1 * width + x1) * channel_count + c];
+                
+                    float out =(1 - dx) * (1 - dy) * pixle00 +
+                            dx * (1 - dy) * pixel10 +
+                            (1 - dx) * dy * pixel01 +
+                            dx * dy * pixel11;
+                    
+                    output_data[out_index + c] = (unsigned char)(out + 0.5f);               
+                }
+            }
+        }
+        write_image_data("image_out.bmp",output_data,out_width,out_height);
+        free_image_data(image_data);
+        free(output_data);
+    }
+    else{
+        printf("Read file Error!\n");
+    }
+}
+
 void scale_nearest(char *source_path,float scale){
-    int a = 0;
     int width = 0;
     int height = 0;
     unsigned char *image_data = NULL;
     int channel_count = 0;
 
-    if(a != read_image_data(source_path,&image_data,&width,&height,&channel_count)){
-        int out_width = width * scale;
-        int out_height = height * scale;
+    if(read_image_data(source_path,&image_data,&width,&height,&channel_count) != 0){
+        int out_width = (int)width * scale;
+        int out_height = (int)height * scale;
         unsigned char *output_data = malloc(out_width * out_height * channel_count);
         for(int y = 0; y < out_height; y++){
             for(int x = 0; x < out_width ;x++){
@@ -41,7 +99,8 @@ void scale_nearest(char *source_path,float scale){
             }
         }
         write_image_data("image_out.bmp",output_data,out_width,out_height);
-        free_image_data(output_data);
+        free_image_data(image_data);
+        free(output_data);
     }   
     else{
         printf("Read file Error!\n");
@@ -49,12 +108,11 @@ void scale_nearest(char *source_path,float scale){
 }
 
 void scale_crop(char *source_path,int center_x,int center_y,int out_width,int out_height){
-    int a = 0;
     int width = 0;
     int height = 0;
     unsigned char *image_data = NULL;
     int channel_count = 0;
-    if(a != read_image_data(source_path,&image_data,&width,&height,&channel_count)){
+    if(read_image_data(source_path,&image_data,&width,&height,&channel_count) != 0){
         int start_x = center_x - out_width/2;
         int end_x = center_x + out_width/2;
         if(start_x < 0 ){
@@ -85,7 +143,8 @@ void scale_crop(char *source_path,int center_x,int center_y,int out_width,int ou
             }
         }
         write_image_data("image_out.bmp",output_data,x_pixels,y_pixels);
-        free_image_data(output_data);
+        free_image_data(image_data);
+        free(output_data);
     }
     else{
         printf("Read file Error!\n");
@@ -96,13 +155,12 @@ void scale_crop(char *source_path,int center_x,int center_y,int out_width,int ou
 }
 
 void max_pixel(char *source_path){
-    int a = 0;
     int width = 0;
     int height = 0;
     unsigned char *image_data = NULL;
     int channel_count = 0;
     printf("entering max_pixel");
-    if(a != read_image_data(source_path,&image_data,&width,&height,&channel_count)){
+    if(read_image_data(source_path,&image_data,&width,&height,&channel_count) != 0){
         int rgbSum = 0;
         int maxSum = -1;
         int currentWidth = 0;
@@ -130,12 +188,11 @@ void max_pixel(char *source_path){
 }
 
 void first_pixel(char *source_path){
-    int a = 0;
     int width = 0;
     int height = 0;
     unsigned char *image_data = NULL;
     int channel_count = 0;
-    if(a != read_image_data(source_path,&image_data,&width,&height,&channel_count)){
+    if(read_image_data(source_path,&image_data,&width,&height,&channel_count) != 0){
         printf("first_pixel: %d, %d, %d\n",image_data[0],image_data[1],image_data[2]);
     }
     else{
@@ -148,8 +205,7 @@ void dimension(const char *filename){
     int height = 0;
     unsigned char *image_data = NULL;
     int channel_count = 0;
-    int a = 0;
-    if(a != read_image_data(filename,&image_data,&width,&height,&channel_count)){
+    if(read_image_data(filename,&image_data,&width,&height,&channel_count) != 0){
         printf("dimension: %d %d\n",width,height);
     }
     else{
