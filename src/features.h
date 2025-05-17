@@ -6,4 +6,5 @@ void helloWorld();
 void dimension(const char *filename);
 void first_pixel(char *source_path);
 void max_pixel(char *source_path);
+void scale_crop(char *source_path,int center_x,int center_y,int width,int height);
 #endif
