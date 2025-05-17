@@ -49,6 +49,10 @@ int main(int argc, char **argv) {
         atoi(configuration.arguments[2]),
         atoi(configuration.arguments[3]));
   }
+  if ( strncmp( configuration.command, "scale_nearest", 13 ) == 0 ) {
+      scale_nearest(configuration.filenames[0],
+        atof(configuration.arguments[0]));
+  } 
   /*
    * TO COMPLETE
    */

@@ -3,6 +3,7 @@
 
 #include "features.h"
 #include "utils.h"
+#include <stdlib.h>
 
 /**
  * @brief Here, you have to code features of the project.
@@ -10,6 +11,42 @@
  * Your commit messages must contain "#n" with: n = number of the corresponding feature issue.
  * When the feature is totally implemented, your commit message must contain "close #n".
  */
+
+void scale_nearest(char *source_path,float scale){
+    int a = 0;
+    int width = 0;
+    int height = 0;
+    unsigned char *image_data = NULL;
+    int channel_count = 0;
+
+    if(a != read_image_data(source_path,&image_data,&width,&height,&channel_count)){
+        int out_width = width * scale;
+        int out_height = height * scale;
+        unsigned char *output_data = malloc(out_width * out_height * channel_count);
+        for(int y = 0; y < out_height; y++){
+            for(int x = 0; x < out_width ;x++){
+                int x_src = (x / scale);
+                int y_src = (y / scale);
+                if(x_src >= width){
+                    x_src = width -1 ;
+                }
+                if(y_src >= height){
+                    y_src = height -1;
+                }
+                int src_index = (y_src * width + x_src) * channel_count;
+                int out_index = (y * out_width + x) * channel_count;
+                for(int c = 0;c<channel_count;c++){
+                    output_data[out_index+c] = image_data[src_index +c];
+                }
+            }
+        }
+        write_image_data("image_out.bmp",output_data,out_width,out_height);
+        free_image_data(output_data);
+    }   
+    else{
+        printf("Read file Error!\n");
+    }
+}
 
 void scale_crop(char *source_path,int center_x,int center_y,int out_width,int out_height){
     int a = 0;
@@ -36,16 +73,13 @@ void scale_crop(char *source_path,int center_x,int center_y,int out_width,int ou
         }
         int y_pixels = end_y - start_y;
         int x_pixels = end_x - start_x;
-        unsigned char output_data[y_pixels * x_pixels * channel_count];
+        unsigned char *output_data = malloc(y_pixels * x_pixels * channel_count);
         int count = 0;
         for(int y = start_y ; y<end_y; y++){
             for(int x = start_x ; x<end_x ; x++){
                 int index = (y*width + x) * channel_count;
-                output_data[count] = image_data[index];
-                output_data[count+1] = image_data[index+1];
-                output_data[count+2] = image_data[index+2];
-                if(channel_count == 4){
-                    output_data[count+3] = image_data[index+3];
+                for(int c = 0;c<channel_count;c++){
+                    output_data[count +c] = image_data[index];
                 }
                 count += channel_count;
             }
