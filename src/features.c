@@ -11,6 +11,56 @@
  * When the feature is totally implemented, your commit message must contain "close #n".
  */
 
+void scale_crop(char *source_path,int center_x,int center_y,int out_width,int out_height){
+    int a = 0;
+    int width = 0;
+    int height = 0;
+    unsigned char *image_data = NULL;
+    int channel_count = 0;
+    if(a != read_image_data(source_path,&image_data,&width,&height,&channel_count)){
+        int start_x = center_x - out_width/2;
+        int end_x = center_x + out_width/2;
+        if(start_x < 0 ){
+            start_x = 0;
+        }
+        if(end_x > width){
+            end_x = width;
+        }
+        int start_y = center_y - out_height/2;
+        if(start_y < 0){
+            start_y = 0;
+        }
+        int end_y = center_y + out_height/2;
+        if(end_y > height){
+            end_y = height;
+        }
+        int y_pixels = end_y - start_y;
+        int x_pixels = end_x - start_x;
+        unsigned char output_data[y_pixels * x_pixels * channel_count];
+        int count = 0;
+        for(int y = start_y ; y<end_y; y++){
+            for(int x = start_x ; x<end_x ; x++){
+                int index = (y*width + x) * channel_count;
+                output_data[count] = image_data[index];
+                output_data[count+1] = image_data[index+1];
+                output_data[count+2] = image_data[index+2];
+                if(channel_count == 4){
+                    output_data[count+3] = image_data[index+3];
+                }
+                count += channel_count;
+            }
+        }
+        write_image_data("image_out.bmp",output_data,x_pixels,y_pixels);
+        free_image_data(output_data);
+    }
+    else{
+        printf("Read file Error!\n");
+    }
+
+
+    
+}
+
 void max_pixel(char *source_path){
     int a = 0;
     int width = 0;
