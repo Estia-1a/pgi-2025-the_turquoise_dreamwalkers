@@ -3,5 +3,6 @@
 
 
 void helloWorld();
+void mirror_vertical(char*sourcepath);
 
 #endif
