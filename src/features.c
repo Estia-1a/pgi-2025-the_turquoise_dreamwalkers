@@ -199,6 +199,7 @@ void first_pixel(char *source_path){
         printf("Read file Error!\n");
     }
 }
+//hello
 void dimension(const char *filename){
     // unsigned char **data;int *width;int *height;int *channel_count;
     int width = 0;
