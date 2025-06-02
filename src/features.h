@@ -9,4 +9,9 @@ void max_pixel(char *source_path);
 void scale_crop(char *source_path,int center_x,int center_y,int width,int height);
 void scale_nearest(char *source_path,float scale);
 void scale_bilinear(char *source_path,float scale);
+
+
+//For tutorials 1
+//Nothing Here.123
+
 #endif
