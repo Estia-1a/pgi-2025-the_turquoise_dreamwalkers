@@ -217,7 +217,7 @@ void mirror_vertical(char*sourcepath){
     int w,h,ch_count;
     int result= read_image_data(sourcepath, &data, &w, ah, ach_count);
     if (result !=0){
-        unsigned char*mirror_vertical_data=(unsugned char *) malloc(w * h * ch_count);
+        unsigned char*mirror_vertical_data=(unsigned char *) malloc(w * h * ch_count);
         if (!mirror_vertical_data){
             fprint(stderr,"Probléme de réservation de mémoire\n");
             return;
@@ -234,6 +234,29 @@ void mirror_vertical(char*sourcepath){
     }
     free_image_data(data);
 }
+void mirror_horizontal(char*sourcepath){
+    unsigned char *data;
+    int w,h,ch_count;
+    int result= read_image_data(sourcepath, &data, &w, ah, ach_count);
+    if (result !=0){
+        unsigned char*mirror_horizontal_data=(unsigned char *) malloc(w * h * ch_count);
+        if (!mirror_horizontal_data){
+            fprint(stderr,"Probléme de réservation de mémoire\n");
+            return;
+        }
+        for (int y=0;y < h;y++){
+            for(int x=0; x<w;x++){
+                for(int x=0;i<ch_count;i++){
+                     mirror_horizontal_data[(y*w+(w-x-1))*ch_count+i]=data[(y*w +x)*ch_count+i];
+                }
+            }
+        }
+        write_image_data("image_out.bmp",mirror_horizontal_data,w,h);
+        free_image_data(mirror_horizontal_data);        
+    }
+    free_image_data(data);
+}
+
 void helloWorld() {
     printf("Hello World !");
 }
