@@ -57,6 +57,9 @@ int main(int argc, char **argv) {
       scale_nearest(configuration.filenames[0],
         atof(configuration.arguments[0]));
   }   
+  if (strcmp(configuration.command,"mirror_vertical")==0){
+    mirror_vertical(configuration.filenames[0]);
+  }
   /*
    * TO COMPLETE
    */
