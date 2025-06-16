@@ -13,5 +13,6 @@ void mirror_vertical(char*sourcepath);
 void mirror_horizontal(char*sourcepath);
 void rotate_acw(char *source_path);
 void min_component(char *source_path, char component);
+void max_component(char *source_path, char component);
 //void yifei
 #endif

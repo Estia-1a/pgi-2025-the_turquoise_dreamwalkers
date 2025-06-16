@@ -319,6 +319,51 @@ void min_component(char* source_path, char component) {
         fprintf(stderr, "Failed to read image data from %s\n", source_path);
     }
 }
+void max_component(char* source_path, char component) {
+    unsigned char *data = NULL;
+    int width, height, channel_count;
+    int max_value = -1; 
+    int max_x = 0, max_y = 0;
+
+    if (read_image_data(source_path, &data, &width, &height, &channel_count)) {
+        int component_index;
+
+        switch (component) {
+            case 'R':
+                component_index = 0;
+                break;
+            case 'G':
+                component_index = 1;
+                break;
+            case 'B':
+                component_index = 2;
+                break;
+            default:
+                fprintf(stderr, "Invalid component: %c\n", component);
+                free_image_data(data);
+                return;
+        }
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int index = (y * width + x) * channel_count + component_index;
+                int value = data[index];
+
+                if (value > max_value) {
+                    max_value = value;
+                    max_x = x;
+                    max_y = y;
+                }
+            }
+        }
+
+        printf("max_component %c (%d, %d): %d\n", component, max_x, max_y, max_value);
+        free_image_data(data);
+    } else {
+        fprintf(stderr, "Failed to read image data from %s\n", source_path);
+    }
+}
+
 
 void helloWorld() {
     printf("Hello World !");

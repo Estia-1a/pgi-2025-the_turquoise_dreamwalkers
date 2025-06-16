@@ -72,6 +72,12 @@ int main(int argc, char **argv) {
             min_component(configuration.filenames[0], component);
         }
     }
+  if (strncmp(configuration.command, "max_component") == 0) {
+        if (configuration.arguments[0] != NULL) {
+            char component = configuration.arguments[0][0];
+            max_component(configuration.filenames[0], component);
+        } 
+    }
   /*
    * TO COMPLETE
    */
