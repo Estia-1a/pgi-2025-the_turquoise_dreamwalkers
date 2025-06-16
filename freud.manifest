@@ -1,1 +1,13 @@
 helloworld
+dimension
+first_pixel
+max_pixel
+scale_crop
+scale_nearest
+scale_bilinear
+mirror_vertical
+mirror_horizontal
+rotate_acw
+min_component
+max_component
+second_line
