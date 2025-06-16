@@ -256,6 +256,25 @@ void mirror_horizontal(char*sourcepath){
     }
     free_image_data(data);
 }
+void rotate_acw(char* source_path) {
+    unsigned char *data;
+    int width, height, channel_count;
+    int result = read_image_data(source_path, &data, &width, &height, &channel_count);
+    if (result != 0) {
+        unsigned char *rotated_data = (unsigned char *)malloc(width * height * channel_count);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                for (int c = 0; c < channel_count; c++) {
+                    rotated_data[((width - x - 1) * height + y) * channel_count + c] = data[(y * width + x) * channel_count + c];
+                }
+            }
+        }
+        write_image_data("image_out.bmp", rotated_data, height, width); 
+        free_image_data(rotated_data);
+    }
+    
+    free_image_data(data);
+}
 
 void helloWorld() {
     printf("Hello World !");
