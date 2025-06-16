@@ -9,11 +9,13 @@
 */
 
 typedef struct _pixelRGB {
-  /*
-   * TO COMPLETE
-   */
-   char R ; 
-} pixelRGB ;
+  /* RGB color components */
+  unsigned char R;
+  unsigned char G;
+  unsigned char B;
+} pixelRGB;
 
+pixelRGB* getPixel(unsigned char* data, const unsigned int width, const unsigned int height, const unsigned int n, const unsigned int x, const unsigned int y);
+void setPixel(unsigned char* data, const unsigned int width, const unsigned int height, const unsigned int n, const unsigned int x, const unsigned int y, pixelRGB* pixel);
 
 #endif
