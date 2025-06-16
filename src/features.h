@@ -11,5 +11,6 @@ void scale_nearest(char *source_path,float scale);
 void scale_bilinear(char *source_path,float scale);
 void mirror_vertical(char*sourcepath);
 void mirror_horizontal(char*sourcepath);
+void color_blue(char *source_path);
 //void yifei
 #endif

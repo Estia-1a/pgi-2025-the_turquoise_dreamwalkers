@@ -256,6 +256,37 @@ void mirror_horizontal(char*sourcepath){
     }
     free_image_data(data);
 }
+void color_blue(char *source_path) {
+    int width = 0;
+    int height = 0;
+    unsigned char *image_data = NULL;
+    int channel_count = 0;
+
+    if(read_image_data(source_path, &image_data, &width, &height, &channel_count) != 0) {
+        unsigned char *output_data = malloc(width * height * channel_count);
+        if (!output_data) {
+            printf("Erreur d'allocation mémoire\n");
+            free_image_data(image_data);
+            return;
+        }
+        long long total_bytes = (long long)width * height * channel_count;
+        for (long long i = 0; i < total_bytes; i += channel_count) {
+            output_data[i + 0] = 0; // R
+            output_data[i + 1] = 0; // G
+            output_data[i + 2] = image_data[i + 2]; // B
+            // Copie canal alpha si présent
+            for(int c = 3; c < channel_count; c++) {
+                output_data[i + c] = image_data[i + c];
+            }
+        }
+        write_image_data("image_out.bmp", output_data, width, height);
+        free_image_data(image_data);
+        free(output_data);
+    } else {
+        printf("Read file Error!\n");
+    }
+}
+
 
 void helloWorld() {
     printf("Hello World !");
