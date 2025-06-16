@@ -78,7 +78,7 @@ int main(int argc, char **argv) {
             max_component(configuration.filenames[0], component);
         } 
     }
-  if (strcmp(configuration.command, "second_line", 11) == 0) {
+  if (strncmp(configuration.command, "second_line", 11) == 0) {
     second_line(configuration.filenames[0]);
   }
   /*
