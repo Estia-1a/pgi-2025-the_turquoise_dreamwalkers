@@ -57,16 +57,16 @@ int main(int argc, char **argv) {
       scale_nearest(configuration.filenames[0],
         atof(configuration.arguments[0]));
   }   
-  if (strcmp(configuration.command,"mirror_vertical", 15)==0){
+  if (strncmp(configuration.command,"mirror_vertical", 15)==0){
     mirror_vertical(configuration.filenames[0]);
   }
-  if (strcmp(configuration.command,"mirror_horizontal", 17)==0){
+  if (strncmp(configuration.command,"mirror_horizontal", 17)==0){
         mirror_horizontal(configuration.filenames[0]);
   }
-  if (strcmp(configuration.command, "rotate_acw", 10) == 0) {
+  if (strncmp(configuration.command, "rotate_acw", 10) == 0) {
         rotate_acw(configuration.filenames[0]);
   }
-    if (strcmp(configuration.command, "min_component", 13) == 0) {
+    if (strncmp(configuration.command, "min_component", 13) == 0) {
         if (configuration.arguments[0] != NULL) {
             char component = configuration.arguments[0][0];
             min_component(configuration.filenames[0], component);
