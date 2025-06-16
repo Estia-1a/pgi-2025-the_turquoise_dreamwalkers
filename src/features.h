@@ -12,5 +12,6 @@ void scale_bilinear(char *source_path,float scale);
 void mirror_vertical(char*sourcepath);
 void mirror_horizontal(char*sourcepath);
 void rotate_acw(char *source_path);
+void min_component(char *source_path, char component);
 //void yifei
 #endif
