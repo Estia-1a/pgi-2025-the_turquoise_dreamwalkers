@@ -363,6 +363,19 @@ void max_component(char* source_path, char component) {
         fprintf(stderr, "Failed to read image data from %s\n", source_path);
     }
 }
+void second_line(char* source_path) {
+    unsigned char *data;
+    int width, height, channel_count;
+    int result = read_image_data(source_path, &data, &width, &height, &channel_count);
+    if (result != 0) {
+        int index = width * channel_count; 
+        unsigned char R = data[index];
+        unsigned char G = data[index + 1];
+        unsigned char B = data[index + 2];
+        printf("second_line: %d, %d, %d\n", R, G, B);
+    }
+    free_image_data(data);
+}
 
 
 void helloWorld() {
