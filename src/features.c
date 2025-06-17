@@ -382,3 +382,31 @@ void second_line(char* source_path) {
 void helloWorld() {
     printf("Hello World !");
 }
+
+
+void tenth_pixel (char *source_path){
+    unsigned char *data=NULL;
+    int width;
+    int height;
+    int channel_count;
+
+    int Status = read_image_data( source_path ,&data,&width,&height,&channel_count);
+    if(Status != 0){
+        printf("Here is some error: %s\n",source_path);
+        return;
+    }
+
+    if(width*height*channel_count <= (9 * channel_count + (channel_count - 1))){
+        printf("Here is no tenth_pixel\n");
+        free(data);
+        return;
+    }
+
+    unsigned char R = data[9*channel_count];
+    unsigned char G = data[9*channel_count+ 1];
+    unsigned char B = data[9*channel_count+ 2];
+
+    printf("tenth_pixel: %d,%d,%d\n",R,G,B);
+    return;
+    
+}
