@@ -1,0 +1,7 @@
+/home/runner/work/pgi-2025-the_turquoise_dreamwalkers/pgi-2025-the_turquoise_dreamwalkers/src/utils.c: In function ‘setPixel’:
+/home/runner/work/pgi-2025-the_turquoise_dreamwalkers/pgi-2025-the_turquoise_dreamwalkers/src/utils.c:27:16: warning: ‘return’ with a value, in function returning void
+   27 |         return NULL; // Out of bounds
+      |                ^~~~
+/home/runner/work/pgi-2025-the_turquoise_dreamwalkers/pgi-2025-the_turquoise_dreamwalkers/src/utils.c:25:6: note: declared here
+   25 | void setPixel(unsigned char* data, const unsigned int width, const unsigned int height, const unsigned int n, const unsigned int x, const unsigned int y, pixelRGB* pixel) {
+      |      ^~~~~~~~
