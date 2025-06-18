@@ -391,14 +391,14 @@ void tenth_pixel (char *source_path){
     int channel_count;
 
     int Status = read_image_data( source_path ,&data,&width,&height,&channel_count);
-    if(Status != 0){
+    if(Status == 0){
         printf("Here is some error: %s\n",source_path);
         return;
     }
 
     if(width*height*channel_count <= (9 * channel_count + (channel_count - 1))){
         printf("Here is no tenth_pixel\n");
-        free(data);
+        free_image_data(data);
         return;
     }
 
@@ -407,6 +407,7 @@ void tenth_pixel (char *source_path){
     unsigned char B = data[9*channel_count+ 2];
 
     printf("tenth_pixel: %d,%d,%d\n",R,G,B);
+    free_image_data(data);
     return;
     
 }
