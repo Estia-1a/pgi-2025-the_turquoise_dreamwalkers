@@ -11,13 +11,14 @@ pixelRGB* getPixel(unsigned char* data, const unsigned int width, const unsigned
     
     
     unsigned int index = (y * width + x) * n;
-    static pixelRGB* pixel ;
+    static pixelRGB pixel ;
     
-    pixel->R = data[index];
-    pixel->G = data[index + 1];
-    pixel->B = data[index + 2];
-
-    return pixel;
+    pixel.R = data[index];
+    pixel.G = data[index + 1];
+    pixel.B = data[index + 2];
+    // printf("%d,%d,%d",pixel.B,pixel.G,pixel.B);
+    // free_image_data(data);
+    return &pixel;
 }
 
 void setPixel(unsigned char* data, const unsigned int width, const unsigned int height, const unsigned int n, const unsigned int x, const unsigned int y, pixelRGB* pixel) {

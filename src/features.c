@@ -442,3 +442,40 @@ void color_blue(char *source_path) {
         printf("Read file Error!\n");
     }
 }
+void min_pixel (char *source_path){
+    //printf("[DEBUG] >>> Entering min_pixel()\n");
+    unsigned char *data=NULL;
+    int width;
+    int height;
+    int channel_count;
+    int min_sum=256*3,min_i=0,min_j=0;
+    pixelRGB pixel1={0,0,0};
+
+    int Status = read_image_data( source_path ,&data,&width,&height,&channel_count);
+    if(Status == 0){
+        printf("Here is some error: %s\n",source_path);
+        return;
+    }
+    //printf("[DEBUG] Image load result: status=%d, data=%p, width=%d, height=%d, channels=%d\n",
+    //Status, data, width, height, channel_count);
+
+    for(int i=0;i<height;i++){
+        for(int j=0;j<width;j++){
+            // printf("%d",i);
+            pixelRGB* p=getPixel(data,width,height,channel_count,j,i);
+            // printf("%d",p->B);
+            int sum=p->R+p->G+p->B;
+            if(sum<min_sum){
+                min_sum=sum;
+                min_i=i;
+                min_j=j;
+                pixel1=*p;
+            }
+        }
+
+    }
+
+    printf("min_pixel (%d,%d): %d, %d, %d",min_j,min_i,pixel1.R,pixel1.G,pixel1.B);
+    free_image_data(data);
+    return;
+}
