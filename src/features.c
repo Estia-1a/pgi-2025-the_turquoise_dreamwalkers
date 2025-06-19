@@ -720,3 +720,48 @@ void print_pixel(char *filename, int x, int y) {
         printf("Read file Error!\n");
     }
 }
+
+void rotate_cw(char *source_path){
+    unsigned char *data=NULL;
+    int width;
+    int height;
+    int channel_count;
+
+    int Status = read_image_data(source_path,&data,&width,&height,&channel_count);
+    if(Status == 0){    
+        printf("Here is some error: %s\n","image.bmp");
+        return;
+    }
+
+    int new_width  = height;
+    int new_height = width;
+    unsigned char *rotated = malloc(new_width * new_height * channel_count);
+    if (!rotated) {
+        fprintf(stderr, "failed!\n");
+        free_image_data(data);
+        return;
+    }
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int src_idx = (y * width + x) * channel_count;
+            int dst_x   = y;
+            int dst_y   = (new_height - 1) - x;
+            int dst_idx = (dst_y * new_width + dst_x) * channel_count;
+            for (int c = 0; c < channel_count; c++) {
+                rotated[dst_idx + c] = data[src_idx + c];
+            }
+        }
+    }
+
+
+    if (write_image_data("image_out.bmp",rotated, new_height, new_height) == 0) {
+        printf("Error writing image data to file.\n");
+    } else {
+        printf("Image data written successfully to image_out.bmp\n");
+    }
+
+    free_image_data(data);
+    return;
+
+}
