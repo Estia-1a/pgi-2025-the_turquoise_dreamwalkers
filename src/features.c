@@ -580,7 +580,6 @@ void color_gray(char *source_path) {
         printf("Read file Error!\n");
     }
 }
-<<<<<<< HEAD
 void stat_report(char *source_path){
     int width = 0;
     int height = 0;
