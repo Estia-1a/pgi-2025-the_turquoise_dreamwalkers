@@ -508,7 +508,7 @@ void color_red(char *source_path) {
         free(output_data);
     } else {
         printf("Read file Error!\n");
-    }
+    }}
 void color_invert(char *source_path){
     unsigned char *data=NULL;
     int width;
@@ -547,7 +547,6 @@ void color_invert(char *source_path){
     free_image_data(data);  
     return;
 }
-}
 void color_gray(char *source_path) {
     int width = 0;
     int height = 0;
@@ -578,4 +577,69 @@ void color_gray(char *source_path) {
     } else {
         printf("Read file Error!\n");
     }
+}
+void stat_report(char *source_path){
+    int width = 0;
+    int height = 0;
+    int channel_count = 0;
+    unsigned char *image_data = NULL;
+
+    FILE *file = fopen("stat_report.txt", "w");
+    if (!file) {
+        printf("Error: Could not create stat_report.txt\n");
+        return;
+    }
+    if (read_image_data(source_path, &image_data, &width, &height, &channel_count) == 0) {
+        fprintf(file, "Error: Could not read image data\n");
+        fclose(file);
+        return;
+    }
+    int max_sum = -1, max_x = 0, max_y = 0, maxR = 0, maxG = 0, maxB = 0;
+    int min_sum = 256*3, min_x = 0, min_y = 0, minR = 0, minG = 0, minB = 0;
+    int maxR_val = -1, maxG_val = -1, maxB_val = -1;
+    int minR_val = 256, minG_val = 256, minB_val = 256;
+    int maxR_x = 0, maxR_y = 0, maxG_x = 0, maxG_y = 0, maxB_x = 0, maxB_y = 0;
+    int minR_x = 0, minR_y = 0, minG_x = 0, minG_y = 0, minB_x = 0, minB_y = 0;
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int idx = (y * width + x) * channel_count;
+            int r = image_data[idx];
+            int g = image_data[idx + 1];
+            int b = image_data[idx + 2];
+            int sum = r + g + b;
+            if (sum > max_sum) {
+                max_sum = sum;
+                max_x = x;
+                max_y = y;
+                maxR = r;
+                maxG = g;
+                maxB = b;
+            }
+            if (sum < min_sum) {
+                min_sum = sum;
+                min_x = x;
+                min_y = y;
+                minR = r;
+                minG = g;
+                minB = b;
+            }
+            if (r > maxR_val) { maxR_val = r; maxR_x = x; maxR_y = y; }
+            if (g > maxG_val) { maxG_val = g; maxG_x = x; maxG_y = y; }
+            if (b > maxB_val) { maxB_val = b; maxB_x = x; maxB_y = y; }
+            if (r < minR_val) { minR_val = r; minR_x = x; minR_y = y; }
+            if (g < minG_val) { minG_val = g; minG_x = x; minG_y = y; }
+            if (b < minB_val) { minB_val = b; minB_x = x; minB_y = y; }
+        }
+    }
+    fprintf(file, "max_pixel (%d,%d): %d, %d, %d\n\n", max_x, max_y, maxR, maxG, maxB);
+    fprintf(file, "min_pixel (%d,%d): %d, %d, %d\n\n", min_x, min_y, minR, minG, minB);
+    fprintf(file, "max_component R (%d,%d): %d\n\n", maxR_x, maxR_y, maxR_val);
+    fprintf(file, "max_component G (%d,%d): %d\n\n", maxG_x, maxG_y, maxG_val);
+    fprintf(file, "max_component B (%d,%d): %d\n\n", maxB_x, maxB_y, maxB_val);
+    fprintf(file, "min_component R (%d,%d): %d\n\n", minR_x, minR_y, minR_val);
+    fprintf(file, "min_component G (%d,%d): %d\n\n", minG_x, minG_y, minG_val);
+    fprintf(file, "min_component B (%d,%d): %d\n\n", minB_x, minB_y, minB_val);
+
+    fclose(file);
+    free_image_data(image_data);
 }
