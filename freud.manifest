@@ -16,3 +16,4 @@ min_pixel
 color_invert
 color_gray_luminance
 rotate_cw
+color_desaturate

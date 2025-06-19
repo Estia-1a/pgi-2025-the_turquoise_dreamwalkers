@@ -765,3 +765,48 @@ void rotate_cw(char *source_path){
     return;
 
 }
+
+void color_desaturate(char *source_path) {
+    int width = 0;
+    int height = 0;
+    unsigned char *data = NULL;
+    int channel_count = 0;
+
+    int Status = read_image_data(source_path,&data,&width,&height,&channel_count);
+    if(Status == 0){    
+        printf("Here is some error: %s\n","image.bmp");
+        return;
+    }
+
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int idx = (y * width + x) * channel_count;
+
+            unsigned char R = data[idx + 0];
+            unsigned char G = data[idx + 1];
+            unsigned char B = data[idx + 2];
+
+            unsigned char mn = (R < G ? R : G);
+            if (B < mn) mn = B;
+            unsigned char mx = (R > G ? R : G);
+            if (B > mx) mx = B;
+
+            unsigned char gray = (mn + mx) / 2;
+
+            data[idx + 0] = gray;
+            data[idx + 1] = gray;
+            data[idx + 2] = gray;
+        }
+    }
+
+    const char *out_name = "image_desat.bmp";
+    if (write_image_data(out_name, data, width, height) == 0) {
+        fprintf(stderr, "Error writing desaturated image to %s\n", out_name);
+    } else {
+        printf("Desaturated image saved as %s\n", out_name);
+    }
+
+    free_image_data(data);
+    return;
+}   
