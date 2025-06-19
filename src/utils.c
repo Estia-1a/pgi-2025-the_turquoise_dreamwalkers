@@ -29,3 +29,9 @@ void setPixel(unsigned char* data, const unsigned int width, const unsigned int 
     data[index + 1] = pixel->G;
     data[index + 2] = pixel->B;
 }
+pixelRGB *get_pixel(unsigned char* data, const unsigned int width, const unsigned int height, const unsigned int n, const unsigned int x, const unsigned int y) {
+    if (data == NULL) return NULL;
+    if (x >= width || y >= height) return NULL;
+    int index = (y * width + x) * n;
+    return (pixelRGB *) &data[index];
+}

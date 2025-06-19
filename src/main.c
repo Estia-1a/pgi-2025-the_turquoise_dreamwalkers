@@ -107,6 +107,13 @@ if (strncmp(configuration.command, "stat_report", 11) == 0) {
 if (strncmp(configuration.command, "mirror_total", 12) == 0) {
     mirror_total(configuration.filenames[0]);
 }
+if (strncmp(configuration.command, "print_pixel", 11) == 0) {
+    if (configuration.arguments[0] && configuration.arguments[1]) {
+        int x = atoi(configuration.arguments[0]);
+        int y = atoi(configuration.arguments[1]);
+        print_pixel(configuration.filenames[0], x, y);
+    }
+}
 
 
 
