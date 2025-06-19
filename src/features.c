@@ -547,3 +547,35 @@ void color_invert(char *source_path){
     free_image_data(data);  
     return;
 }
+}
+void color_gray(char *source_path) {
+    int width = 0;
+    int height = 0;
+    unsigned char *image_data = NULL;
+    int channel_count = 0;
+    if (read_image_data(source_path, &image_data, &width, &height, &channel_count) != 0) {
+        unsigned char *output_data = malloc(width * height * channel_count);
+        if (!output_data) {
+            fprintf(stderr, "Memory allocation error\n");
+            free_image_data(image_data);
+            return;
+        }
+        for (int i = 0; i < width * height; i++) {
+            unsigned char r = image_data[i * channel_count + 0];
+            unsigned char g = image_data[i * channel_count + 1];
+            unsigned char b = image_data[i * channel_count + 2];
+            unsigned char gray = (r + g + b) / 3;
+            output_data[i * channel_count + 0] = gray;
+            output_data[i * channel_count + 1] = gray;
+            output_data[i * channel_count + 2] = gray;
+            if (channel_count == 4) {
+                output_data[i * channel_count + 3] = image_data[i * channel_count + 3]; // copie alpha si présent
+            }
+        }
+        write_image_data("image_out.bmp", output_data, width, height);
+        free_image_data(image_data);
+        free(output_data);
+    } else {
+        printf("Read file Error!\n");
+    }
+}
