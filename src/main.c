@@ -104,6 +104,10 @@ int main(int argc, char **argv) {
 if (strncmp(configuration.command, "stat_report", 11) == 0) {
     stat_report(configuration.filenames[0]);
 }
+if (strncmp(configuration.command, "mirror_total", 12) == 0) {
+    mirror_total(configuration.filenames[0]);
+}
+
 
 
   /*

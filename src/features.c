@@ -643,3 +643,29 @@ void stat_report(char *source_path){
     fclose(file);
     free_image_data(image_data);
 }
+void mirror_total(char *source_path){
+    int width = 0, height = 0, channel_count = 0;
+    unsigned char *image_data = NULL;
+    if (read_image_data(source_path, &image_data, &width, &height, &channel_count) != 0) {
+        unsigned char *output_data = malloc(width * height * channel_count);
+        if (!output_data) {
+            fprintf(stderr, "Memory allocation error\n");
+            free_image_data(image_data);
+            return;
+        }
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++){
+                int src_index = (y * width + x) * channel_count;
+                int dst_index = ((height - 1 - y) * width + (width - 1 - x)) * channel_count;
+                for (int c = 0; c < channel_count; c++) {
+                    output_data[dst_index + c] = image_data[src_index + c];
+                }
+            }
+        }
+        write_image_data("image_out.bmp", output_data, width, height);
+        free_image_data(image_data);
+        free(output_data);
+    } else {
+        printf("Read file Error!\n");
+    }
+}
