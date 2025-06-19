@@ -412,6 +412,36 @@ void tenth_pixel (char *source_path){
     
 }
 
+void color_blue(char *source_path) {
+    int width = 0;
+    int height = 0;
+    unsigned char *image_data = NULL;
+    int channel_count = 0;
+
+    if (read_image_data(source_path, &image_data, &width, &height, &channel_count) != 0) {
+        unsigned char *output_data = malloc(width * height * channel_count);
+        if (!output_data) {
+            fprintf(stderr, "Memory allocation error\n");
+            free_image_data(image_data);
+            return;
+        }
+
+        for (int i = 0; i < width * height; i++) {
+            output_data[i * channel_count + 0] = 0;
+            output_data[i * channel_count + 1] = 0;
+            output_data[i * channel_count + 2] = image_data[i * channel_count + 2]; 
+            if (channel_count == 4) {
+                output_data[i * channel_count + 3] = image_data[i * channel_count + 3];
+            }
+        }
+
+        write_image_data("image_out.bmp", output_data, width, height);
+        free_image_data(image_data);
+        free(output_data);
+    } else {
+        printf("Read file Error!\n");
+    }
+}
 void min_pixel (char *source_path){
     //printf("[DEBUG] >>> Entering min_pixel()\n");
     unsigned char *data=NULL;
@@ -450,6 +480,35 @@ void min_pixel (char *source_path){
     return;
 }
 
+void color_red(char *source_path) {
+    int width = 0;
+    int height = 0;
+    unsigned char *image_data = NULL;
+    int channel_count = 0;
+
+    if (read_image_data(source_path, &image_data, &width, &height, &channel_count) != 0) {
+        unsigned char *output_data = malloc(width * height * channel_count);
+        if (!output_data) {
+            fprintf(stderr, "Memory allocation error\n");
+            free_image_data(image_data);
+            return;
+        }
+
+        for (int i = 0; i < width * height; i++) {
+            output_data[i * channel_count + 0] = image_data[i * channel_count + 0]; // Red conservé
+            output_data[i * channel_count + 1] = 0; 
+            output_data[i * channel_count + 2] = 0; 
+            if (channel_count == 4) { 
+                output_data[i * channel_count + 3] = image_data[i * channel_count + 3];
+            }
+        }
+
+        write_image_data("image_out.bmp", output_data, width, height);
+        free_image_data(image_data);
+        free(output_data);
+    } else {
+        printf("Read file Error!\n");
+    }
 void color_invert(char *source_path){
     unsigned char *data=NULL;
     int width;
