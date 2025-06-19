@@ -449,3 +449,42 @@ void min_pixel (char *source_path){
     free_image_data(data);
     return;
 }
+
+void color_invert(char *source_path){
+    unsigned char *data=NULL;
+    int width;
+    int height;
+    int channel_count;
+
+//printf("[DEBUG] >>> Entering color_invert()\n");
+    int Status = read_image_data( source_path ,&data,&width,&height,&channel_count);
+    if(Status == 0){
+        printf("Here is some error: %s\n",source_path);
+        return;
+    }
+
+//printf("[DEBUG] >>33 Entering color_invert()\n");
+
+    for(int i=0;i<height;i++){
+        for(int j=0;j<width;j++){
+            pixelRGB* p=getPixel(data,width,height,channel_count,j,i);
+            p->R=255-p->R;
+            p->G=255-p->G;
+            p->B=255-p->B;
+            setPixel(data,width,height,channel_count,j,i,p);
+        }
+    }
+    
+//printf("[DEBUG] >>> Image data written successfully to image_out.bmp\n");
+    
+    if (write_image_data("image_out1.bmp", data, width, height) == 0) {
+        printf("Error writing image data to file.\n");
+    } else {
+        printf("Image data written successfully to image_out.bmp\n");
+    }
+
+//printf("[DEBUG] >>> Image data written successfully to image_out.bmp\n");
+    
+    free_image_data(data);  
+    return;
+}

@@ -20,4 +20,5 @@ void second_line(char *source_path);
 
 void tenth_pixel (char *source_path);
 void min_pixel (char *source_path);
+void color_invert (char *source_path);
 #endif
