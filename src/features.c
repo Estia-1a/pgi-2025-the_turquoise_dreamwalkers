@@ -479,3 +479,33 @@ void min_pixel (char *source_path){
     free_image_data(data);
     return;
 }
+void color_green(char *source_path) {
+    int width = 0;
+    int height = 0;
+    unsigned char *image_data = NULL;
+    int channel_count = 0;
+
+    if (read_image_data(source_path, &image_data, &width, &height, &channel_count) != 0) {
+        unsigned char *output_data = malloc(width * height * channel_count);
+        if (!output_data) {
+            fprintf(stderr, "Memory allocation error\n");
+            free_image_data(image_data);
+            return;
+        }
+
+        for (int i = 0; i < width * height; i++) {
+            output_data[i * channel_count + 0] = 0; // Rouge à zéro
+            output_data[i * channel_count + 1] = image_data[i * channel_count + 1]; // Vert conservé
+            output_data[i * channel_count + 2] = 0; // Bleu à zéro
+            if (channel_count == 4) { // Canal alpha éventuel
+                output_data[i * channel_count + 3] = image_data[i * channel_count + 3];
+            }
+        }
+
+        write_image_data("image_out.bmp", output_data, width, height);
+        free_image_data(image_data);
+        free(output_data);
+    } else {
+        printf("Read file Error!\n");
+    }
+}
