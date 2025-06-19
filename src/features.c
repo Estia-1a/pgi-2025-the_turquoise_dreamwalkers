@@ -509,6 +509,7 @@ void color_red(char *source_path) {
     } else {
         printf("Read file Error!\n");
     }}
+
 void color_invert(char *source_path){
     unsigned char *data=NULL;
     int width;
@@ -547,6 +548,7 @@ void color_invert(char *source_path){
     free_image_data(data);  
     return;
 }
+
 void color_gray(char *source_path) {
     int width = 0;
     int height = 0;
@@ -578,6 +580,7 @@ void color_gray(char *source_path) {
         printf("Read file Error!\n");
     }
 }
+<<<<<<< HEAD
 void stat_report(char *source_path){
     int width = 0;
     int height = 0;
@@ -662,6 +665,40 @@ void mirror_total(char *source_path){
                 }
             }
         }
+        write_image_data("image_out.bmp", output_data, width, height);
+        free_image_data(image_data);
+        free(output_data);
+    } else {
+        printf("Read file Error!\n");
+    }
+}
+void color_gray_luminance(char *source_path){
+    int width = 0;
+    int height = 0;
+    unsigned char *image_data = NULL;
+    int channel_count = 0;
+
+    if (read_image_data(source_path, &image_data, &width, &height, &channel_count) != 0) {
+        unsigned char *output_data = malloc(width * height * channel_count);
+        if (!output_data) {
+            fprintf(stderr, "Memory allocation error\n");
+            free_image_data(image_data);
+            return;
+        }
+
+        for (int i = 0; i < width * height; i++) {
+            unsigned char r = image_data[i * channel_count + 0];
+            unsigned char g = image_data[i * channel_count + 1];
+            unsigned char b = image_data[i * channel_count + 2];
+            unsigned char gray = (unsigned char)(0.299f * r + 0.587f * g + 0.114f * b);
+            output_data[i * channel_count + 0] = gray;
+            output_data[i * channel_count + 1] = gray;
+            output_data[i * channel_count + 2] = gray;
+            if (channel_count == 4) {
+                output_data[i * channel_count + 3] = image_data[i * channel_count + 3]; // copie alpha si présent
+            }
+        }
+
         write_image_data("image_out.bmp", output_data, width, height);
         free_image_data(image_data);
         free(output_data);
