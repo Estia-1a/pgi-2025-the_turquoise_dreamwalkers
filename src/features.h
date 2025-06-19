@@ -19,4 +19,5 @@ void second_line(char *source_path);
 //void yifei
 
 void tenth_pixel (char *source_path);
+void min_pixel (char *source_path);
 #endif
