@@ -669,3 +669,18 @@ void mirror_total(char *source_path){
         printf("Read file Error!\n");
     }
 }
+void print_pixel(char *filename, int x, int y) {
+    unsigned char *data = NULL;
+    int width, height, channel_count;
+    if (read_image_data(filename, &data, &width, &height, &channel_count) != 0) {
+        pixelRGB *p = get_pixel(data, width, height, channel_count, x, y);
+        if (p) {
+            printf("print_pixel (%d, %d): %d, %d, %d\n", x, y, p->R, p->G, p->B);
+        } else {
+            printf("Invalid pixel coordinates\n");
+        }
+        free_image_data(data);
+    } else {
+        printf("Read file Error!\n");
+    }
+}
