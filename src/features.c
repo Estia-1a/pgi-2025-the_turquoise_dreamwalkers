@@ -48,12 +48,12 @@ void scale_bilinear(char *source_path,float scale){
 
                 int out_index = (y * out_width + x) * channel_count;
                 for(int c = 0;c< channel_count; c++){
-                    unsigned char pixle00 = image_data[(y0 * width + x0) * channel_count +c];
+                    unsigned char pixel00 = image_data[(y0 * width + x0) * channel_count +c];
                     unsigned char pixel10 = image_data[(y0 * width + x1) * channel_count + c];
                     unsigned char pixel01 = image_data[(y1 * width + x0) * channel_count + c];
                     unsigned char pixel11 = image_data[(y1 * width + x1) * channel_count + c];
                 
-                    float out =(1 - dx) * (1 - dy) * pixle00 +
+                    float out =(1 - dx) * (1 - dy) * pixel00 +
                             dx * (1 - dy) * pixel10 +
                             (1 - dx) * dy * pixel01 +
                             dx * dy * pixel11;
@@ -64,7 +64,7 @@ void scale_bilinear(char *source_path,float scale){
         }
         write_image_data("image_out.bmp",output_data,out_width,out_height);
         free_image_data(image_data);
-        free(output_data);
+        free_image_data(output_data);
     }
     else{
         printf("Read file Error!\n");
@@ -100,7 +100,7 @@ void scale_nearest(char *source_path,float scale){
         }
         write_image_data("image_out.bmp",output_data,out_width,out_height);
         free_image_data(image_data);
-        free(output_data);
+        free_image_data(output_data);
     }   
     else{
         printf("Read file Error!\n");
@@ -137,14 +137,14 @@ void scale_crop(char *source_path,int center_x,int center_y,int out_width,int ou
             for(int x = start_x ; x<end_x ; x++){
                 int index = (y*width + x) * channel_count;
                 for(int c = 0;c<channel_count;c++){
-                    output_data[count +c] = image_data[index];
+                    output_data[count +c] = image_data[index + c];
                 }
                 count += channel_count;
             }
         }
         write_image_data("image_out.bmp",output_data,x_pixels,y_pixels);
         free_image_data(image_data);
-        free(output_data);
+        free_image_data(output_data);
     }
     else{
         printf("Read file Error!\n");
@@ -242,7 +242,7 @@ void mirror_horizontal(char*sourcepath) {
     if (result !=0){
         unsigned char*mirror_horizontal_data=(unsigned char *) malloc(w* h * ch_count);
         if (!mirror_horizontal_data) {
-            fprintf(stderr,"Problème de réservation de mémoire\n");
+            printf("Problème de réservation de mémoire\n");
             return;
         }
         for (int y=0;y < h;y++){
@@ -296,7 +296,7 @@ void min_component(char* source_path, char component) {
                 component_index = 2;
                 break;
             default:
-                fprintf(stderr, "Invalid component: %c\n", component);
+                printf("Invalid component: %c\n", component);
                 free_image_data(data);
                 return;
         }
@@ -317,7 +317,7 @@ void min_component(char* source_path, char component) {
         printf("min_component %c (%d, %d): %d\n", component, min_x, min_y, min_value);
         free_image_data(data);
     } else {
-        fprintf(stderr, "Failed to read image data from %s\n", source_path);
+        printf("Failed to read image data from %s\n", source_path);
     }
 }
 void max_component(char* source_path, char component) {
@@ -340,7 +340,7 @@ void max_component(char* source_path, char component) {
                 component_index = 2;
                 break;
             default:
-                fprintf(stderr, "Invalid component: %c\n", component);
+                printf("Invalid component: %c\n", component);
                 free_image_data(data);
                 return;
         }
@@ -361,7 +361,7 @@ void max_component(char* source_path, char component) {
         printf("max_component %c (%d, %d): %d\n", component, max_x, max_y, max_value);
         free_image_data(data);
     } else {
-        fprintf(stderr, "Failed to read image data from %s\n", source_path);
+        printf("Failed to read image data from %s\n", source_path);
     }
 }
 void second_line(char* source_path) {
@@ -396,7 +396,7 @@ void tenth_pixel (char *source_path){
         return;
     }
 
-    if(width*height*channel_count <= (9 * channel_count + (channel_count - 1))){
+    if (width * height <= 9){
         printf("Here is no tenth_pixel\n");
         free_image_data(data);
         return;
@@ -421,7 +421,7 @@ void color_blue(char *source_path) {
     if (read_image_data(source_path, &image_data, &width, &height, &channel_count) != 0) {
         unsigned char *output_data = malloc(width * height * channel_count);
         if (!output_data) {
-            fprintf(stderr, "Memory allocation error\n");
+            printf("Memory allocation error\n");
             free_image_data(image_data);
             return;
         }
@@ -437,7 +437,7 @@ void color_blue(char *source_path) {
 
         write_image_data("image_out.bmp", output_data, width, height);
         free_image_data(image_data);
-        free(output_data);
+        free_image_data(output_data);
     } else {
         printf("Read file Error!\n");
     }
@@ -448,7 +448,7 @@ void min_pixel (char *source_path){
     int width;
     int height;
     int channel_count;
-    int min_sum=256*3,min_i=0,min_j=0;
+    int min_sum=3000,min_i=0,min_j=0;
     pixelRGB pixel1={0,0,0};
 
     int Status = read_image_data( source_path ,&data,&width,&height,&channel_count);
@@ -505,7 +505,7 @@ void color_red(char *source_path) {
 
         write_image_data("image_out.bmp", output_data, width, height);
         free_image_data(image_data);
-        free(output_data);
+        free_image_data(output_data);
     } else {
         printf("Read file Error!\n");
     }}
@@ -575,7 +575,7 @@ void color_gray(char *source_path) {
         }
         write_image_data("image_out.bmp", output_data, width, height);
         free_image_data(image_data);
-        free(output_data);
+        free_image_data(output_data);
     } else {
         printf("Read file Error!\n");
     }
@@ -592,12 +592,12 @@ void stat_report(char *source_path){
         return;
     }
     if (read_image_data(source_path, &image_data, &width, &height, &channel_count) == 0) {
-        fprintf(file, "Error: Could not read image data\n");
+        printf("Error: Could not read image data from %s\n", source_path);
         fclose(file);
         return;
     }
     int max_sum = -1, max_x = 0, max_y = 0, maxR = 0, maxG = 0, maxB = 0;
-    int min_sum = 256*3, min_x = 0, min_y = 0, minR = 0, minG = 0, minB = 0;
+    int min_sum = 3000, min_x = 0, min_y = 0, minR = 0, minG = 0, minB = 0;
     int maxR_val = -1, maxG_val = -1, maxB_val = -1;
     int minR_val = 256, minG_val = 256, minB_val = 256;
     int maxR_x = 0, maxR_y = 0, maxG_x = 0, maxG_y = 0, maxB_x = 0, maxB_y = 0;
@@ -651,7 +651,7 @@ void mirror_total(char *source_path){
     if (read_image_data(source_path, &image_data, &width, &height, &channel_count) != 0) {
         unsigned char *output_data = malloc(width * height * channel_count);
         if (!output_data) {
-            fprintf(stderr, "Memory allocation error\n");
+            printf("Memory allocation error\n");
             free_image_data(image_data);
             return;
         }
@@ -666,7 +666,7 @@ void mirror_total(char *source_path){
         }
         write_image_data("image_out.bmp", output_data, width, height);
         free_image_data(image_data);
-        free(output_data);
+        free_image_data(output_data);
     } else {
         printf("Read file Error!\n");
     }
@@ -700,7 +700,7 @@ void color_gray_luminance(char *source_path){
 
         write_image_data("image_out.bmp", output_data, width, height);
         free_image_data(image_data);
-        free(output_data);
+        free_image_data(output_data);
     } else {
         printf("Read file Error!\n");
     }
@@ -721,15 +721,13 @@ void print_pixel(char *filename, int x, int y) {
     }
 }
 
-void rotate_cw(char *source_path){
-    unsigned char *data=NULL;
-    int width;
-    int height;
-    int channel_count;
+void rotate_cw(char *source_path) {
+    unsigned char *data = NULL;
+    int width, height, channel_count;
 
-    int Status = read_image_data(source_path,&data,&width,&height,&channel_count);
-    if(Status == 0){    
-        printf("Here is some error: %s\n","image.bmp");
+    int Status = read_image_data(source_path, &data, &width, &height, &channel_count);
+    if (Status == 0) {    
+        printf("Error reading image: %s\n", source_path);
         return;
     }
 
@@ -737,16 +735,17 @@ void rotate_cw(char *source_path){
     int new_height = width;
     unsigned char *rotated = malloc(new_width * new_height * channel_count);
     if (!rotated) {
-        fprintf(stderr, "failed!\n");
+        fprintf(stderr, "Memory allocation failed!\n");
         free_image_data(data);
         return;
     }
 
+
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
             int src_idx = (y * width + x) * channel_count;
-            int dst_x   = y;
-            int dst_y   = (new_height - 1) - x;
+            int dst_x   = height - 1 - y;
+            int dst_y   = x;
             int dst_idx = (dst_y * new_width + dst_x) * channel_count;
             for (int c = 0; c < channel_count; c++) {
                 rotated[dst_idx + c] = data[src_idx + c];
@@ -754,8 +753,7 @@ void rotate_cw(char *source_path){
         }
     }
 
-
-    if (write_image_data("image_out.bmp",rotated, new_height, new_height) == 0) {
+    if (write_image_data("image_out.bmp", rotated, new_width, new_height) == 0) {
         printf("Error writing image data to file.\n");
     } else {
         printf("Image data written successfully to image_out.bmp\n");

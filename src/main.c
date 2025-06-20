@@ -125,13 +125,5 @@ if(strncmp(configuration.command,"rotate_cw",10)==0){
   rotate_cw(configuration.filenames[0]);
 }
 
-{
-  /* code */
-}
-
-  /*
-   * TO COMPLETE
-   */
-  
   return 0;
 }
