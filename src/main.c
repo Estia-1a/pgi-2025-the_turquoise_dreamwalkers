@@ -114,8 +114,9 @@ if (strncmp(configuration.command, "print_pixel", 11) == 0) {
         print_pixel(configuration.filenames[0], x, y);
     }
 }
-
-
+if (strncmp(configuration.command, "color_green", 11) == 0) {
+    color_green(configuration.filenames[0]);
+}
 
 if (strncmp(configuration.command, "color_gray_luminance",20) == 0) {
     color_gray_luminance(configuration.filenames[0]);
