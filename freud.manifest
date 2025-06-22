@@ -1,6 +1,7 @@
 helloworld
 dimension
 first_pixel
+print_pixel
 max_pixel
 scale_crop
 scale_nearest
@@ -14,5 +15,11 @@ second_line
 tenth_pixel
 min_pixel
 color_invert
+color_red
+color_blue
+color_green
+color_gray
 color_gray_luminance
 rotate_cw
+color_desature
+mirror_total
