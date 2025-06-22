@@ -78,13 +78,13 @@ void scale_nearest(char *source_path,float scale){
     int channel_count = 0;
 
     if(read_image_data(source_path,&image_data,&width,&height,&channel_count) != 0){
-        int out_width = (int)width * scale;
-        int out_height = (int)height * scale;
+        int out_width = (int)(width * scale);
+        int out_height = (int)(height * scale);
         unsigned char *output_data = malloc(out_width * out_height * channel_count);
         for(int y = 0; y < out_height; y++){
             for(int x = 0; x < out_width ;x++){
-                int x_src = (x / scale);
-                int y_src = (y / scale);
+                int x_src =(int) (x / scale);
+                int y_src =(int) (y / scale);
                 if(x_src >= width){
                     x_src = width -1 ;
                 }
@@ -113,8 +113,8 @@ void scale_crop(char *source_path,int center_x,int center_y,int out_width,int ou
     unsigned char *image_data = NULL;
     int channel_count = 0;
     if(read_image_data(source_path,&image_data,&width,&height,&channel_count) != 0){
-        int start_x = center_x - out_width/2;
-        int end_x = center_x + out_width/2;
+        int start_x = center_x - out_width / 2;
+        int end_x = start_x + out_width;
         if(start_x < 0 ){
             start_x = 0;
         }
@@ -125,7 +125,7 @@ void scale_crop(char *source_path,int center_x,int center_y,int out_width,int ou
         if(start_y < 0){
             start_y = 0;
         }
-        int end_y = center_y + out_height/2;
+        int end_y = start_y + out_height;
         if(end_y > height){
             end_y = height;
         }
@@ -159,7 +159,7 @@ void max_pixel(char *source_path){
     int height = 0;
     unsigned char *image_data = NULL;
     int channel_count = 0;
-    printf("entering max_pixel");
+    // printf("entering max_pixel");
     if(read_image_data(source_path,&image_data,&width,&height,&channel_count) != 0){
         int rgbSum = 0;
         int maxSum = -1;
@@ -180,7 +180,7 @@ void max_pixel(char *source_path){
                 RGB[2] = image_data[i+2];
             }
         }
-        printf("max_pixel (%d,%d): %d, %d, %d\n",currentWidth,currentHeight,RGB[0],RGB[1],RGB[2]);
+        printf("Max_pixel (%d,%d): %d, %d, %d\n",currentWidth,currentHeight,RGB[0],RGB[1],RGB[2]);
     }
     else{
         printf("Read file Error!\n");
@@ -206,7 +206,7 @@ void dimension(const char *filename){
     unsigned char *image_data = NULL;
     int channel_count = 0;
     if(read_image_data(filename,&image_data,&width,&height,&channel_count) != 0){
-        printf("dimension: %d %d\n",width,height);
+        printf("Dimension: %d, %d\n",width,height);
     }
     else{
         printf("Read file Error!\n");
@@ -462,7 +462,7 @@ void min_pixel (char *source_path){
     for(int i=0;i<height;i++){
         for(int j=0;j<width;j++){
             // printf("%d",i);
-            pixelRGB* p=getPixel(data,width,height,channel_count,j,i);
+            pixelRGB* p= getPixel(data,width,height,channel_count,j,i);
             // printf("%d",p->B);
             int sum=p->R+p->G+p->B;
             if(sum<min_sum){
@@ -479,7 +479,6 @@ void min_pixel (char *source_path){
     free_image_data(data);
     return;
 }
-
 void color_red(char *source_path) {
     int width = 0;
     int height = 0;
@@ -508,7 +507,8 @@ void color_red(char *source_path) {
         free_image_data(output_data);
     } else {
         printf("Read file Error!\n");
-    }}
+    }
+}
 
 void color_invert(char *source_path){
     unsigned char *data=NULL;
@@ -680,7 +680,8 @@ void color_gray_luminance(char *source_path){
     if (read_image_data(source_path, &image_data, &width, &height, &channel_count) != 0) {
         unsigned char *output_data = malloc(width * height * channel_count);
         if (!output_data) {
-            fprintf(stderr, "Memory allocation error\n");
+            // fprintf(stderr, "Memory allocation error\n");
+            printf("Memory allocation error\n");
             free_image_data(image_data);
             return;
         }
@@ -709,7 +710,7 @@ void print_pixel(char *filename, int x, int y) {
     unsigned char *data = NULL;
     int width, height, channel_count;
     if (read_image_data(filename, &data, &width, &height, &channel_count) != 0) {
-        pixelRGB *p = get_pixel(data, width, height, channel_count, x, y);
+        pixelRGB *p = getPixel(data, width, height, channel_count, x, y);
         if (p) {
             printf("print_pixel (%d, %d): %d, %d, %d\n", x, y, p->R, p->G, p->B);
         } else {
@@ -762,4 +763,63 @@ void rotate_cw(char *source_path) {
     free_image_data(data);
     return;
 
+}
+
+int getMin(int a, int b,int c) {
+    if (a < b && a < c) {
+        return a;
+    } else if (b < a && b < c) {
+        return b;
+    } else {
+        return c;
+    }
+}
+
+int getMax(int a,int b,int c){
+    if(a > b && a > c){
+        return a;
+    }
+    else if( b > a && b > c){
+        return b;
+    }
+    else{
+        return c;
+    }
+}
+void color_desaturate(char *source_path){
+    int width = 0;
+    int height = 0;
+    unsigned char *image_data = NULL;
+    int channel_count = 0;
+    if (read_image_data(source_path, &image_data, &width, &height, &channel_count) != 0) {
+        unsigned char *output_data = malloc(width * height * channel_count);
+        output_data = malloc(width * height * channel_count);
+        if (!output_data) {
+            printf("Memory allocation error\n");
+            free_image_data(image_data);
+            return;
+        }
+        else{
+            for (int i = 0; i < width * height; i++) {
+                unsigned char r = image_data[i * channel_count + 0];
+                unsigned char g = image_data[i * channel_count + 1];
+                unsigned char b = image_data[i * channel_count + 2];
+                unsigned char gray = (unsigned char)((getMin(r, g, b) + getMax(r, g, b)) / 2);
+                // printf("gray: %d\n", gray);
+                output_data[i * channel_count + 0] = gray;
+                output_data[i * channel_count + 1] = gray;
+                output_data[i * channel_count + 2] = gray;
+                if (channel_count == 4) {
+                    output_data[i * channel_count + 3] = image_data[i * channel_count + 3]; // copie alpha si présent
+                }
+            }
+            write_image_data("image_out.bmp", output_data, width, height);
+            free_image_data(image_data);
+            free_image_data(output_data);
+        }
+    }
+    else{
+        printf("Read file Error!\n");
+        return;
+    }
 }

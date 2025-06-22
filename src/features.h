@@ -33,6 +33,7 @@ void stat_report(char *source_path);
 void mirror_total(char *source_path);
 void print_pixel(char *filename, int x, int y);
 
+void color_desaturate(char *source_path);
 
 
 #endif
