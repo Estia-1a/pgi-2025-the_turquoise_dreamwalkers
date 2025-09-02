@@ -1,0 +1,35 @@
+/home/runner/work/pgi-2025-the_turquoise_dreamwalkers/pgi-2025-the_turquoise_dreamwalkers/src/features.c: In function ‘mirror_vertical’:
+/home/runner/work/pgi-2025-the_turquoise_dreamwalkers/pgi-2025-the_turquoise_dreamwalkers/src/features.c:218:56: error: ‘ah’ undeclared (first use in this function); did you mean ‘h’?
+  218 |     int result= read_image_data(sourcepath, &data, &w, ah, ach_count);
+      |                                                        ^~
+      |                                                        h
+/home/runner/work/pgi-2025-the_turquoise_dreamwalkers/pgi-2025-the_turquoise_dreamwalkers/src/features.c:218:56: note: each undeclared identifier is reported only once for each function it appears in
+/home/runner/work/pgi-2025-the_turquoise_dreamwalkers/pgi-2025-the_turquoise_dreamwalkers/src/features.c:218:60: error: ‘ach_count’ undeclared (first use in this function); did you mean ‘ch_count’?
+  218 |     int result= read_image_data(sourcepath, &data, &w, ah, ach_count);
+      |                                                            ^~~~~~~~~
+      |                                                            ch_count
+/home/runner/work/pgi-2025-the_turquoise_dreamwalkers/pgi-2025-the_turquoise_dreamwalkers/src/features.c:222:13: warning: implicit declaration of function ‘fprint’; did you mean ‘fprintf’? [-Wimplicit-function-declaration]
+  222 |             fprint(stderr,"Probléme de réservation de mémoire\n");
+      |             ^~~~~~
+      |             fprintf
+/home/runner/work/pgi-2025-the_turquoise_dreamwalkers/pgi-2025-the_turquoise_dreamwalkers/src/features.c:227:29: error: ‘i’ undeclared (first use in this function)
+  227 |                 for(int x=0;i<ch_count;i++){
+      |                             ^
+/home/runner/work/pgi-2025-the_turquoise_dreamwalkers/pgi-2025-the_turquoise_dreamwalkers/src/features.c: In function ‘mirror_horizontal’:
+/home/runner/work/pgi-2025-the_turquoise_dreamwalkers/pgi-2025-the_turquoise_dreamwalkers/src/features.c:240:56: error: ‘ah’ undeclared (first use in this function); did you mean ‘h’?
+  240 |     int result= read_image_data(sourcepath, &data, &w, ah, ach_count);
+      |                                                        ^~
+      |                                                        h
+/home/runner/work/pgi-2025-the_turquoise_dreamwalkers/pgi-2025-the_turquoise_dreamwalkers/src/features.c:240:60: error: ‘ach_count’ undeclared (first use in this function); did you mean ‘ch_count’?
+  240 |     int result= read_image_data(sourcepath, &data, &w, ah, ach_count);
+      |                                                            ^~~~~~~~~
+      |                                                            ch_count
+/home/runner/work/pgi-2025-the_turquoise_dreamwalkers/pgi-2025-the_turquoise_dreamwalkers/src/features.c:249:29: error: ‘i’ undeclared (first use in this function)
+  249 |                 for(int x=0;i<ch_count;i++){
+      |                             ^
+gmake[2]: *** [CMakeFiles/freud.dir/build.make:93: CMakeFiles/freud.dir/src/features.c.o] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+gmake[1]: *** [CMakeFiles/Makefile2:87: CMakeFiles/freud.dir/all] Error 2
+gmake: *** [Makefile:136: all] Error 2
+
+The process '/usr/local/bin/cmake' failed with exit code 2
