@@ -1,0 +1,29 @@
+In file included from /home/runner/work/pgi-2025-the_turquoise_dreamwalkers/pgi-2025-the_turquoise_dreamwalkers/src/utils.c:3:
+/home/runner/work/pgi-2025-the_turquoise_dreamwalkers/pgi-2025-the_turquoise_dreamwalkers/src/utils.h:21:3: error: conflicting types for ‘pixelRGB’; have ‘struct <anonymous>’
+   21 | } pixelRGB;
+      |   ^~~~~~~~
+/home/runner/work/pgi-2025-the_turquoise_dreamwalkers/pgi-2025-the_turquoise_dreamwalkers/src/utils.h:16:3: note: previous declaration of ‘pixelRGB’ with type ‘pixelRGB’ {aka ‘struct _pixelRGB’}
+   16 | } pixelRGB;
+      |   ^~~~~~~~
+In file included from /home/runner/work/pgi-2025-the_turquoise_dreamwalkers/pgi-2025-the_turquoise_dreamwalkers/src/features.c:5:
+/home/runner/work/pgi-2025-the_turquoise_dreamwalkers/pgi-2025-the_turquoise_dreamwalkers/src/utils.h:21:3: error: conflicting types for ‘pixelRGB’; have ‘struct <anonymous>’
+   21 | } pixelRGB;
+      |   ^~~~~~~~
+/home/runner/work/pgi-2025-the_turquoise_dreamwalkers/pgi-2025-the_turquoise_dreamwalkers/src/utils.h:16:3: note: previous declaration of ‘pixelRGB’ with type ‘pixelRGB’ {aka ‘struct _pixelRGB’}
+   16 | } pixelRGB;
+      |   ^~~~~~~~
+gmake[2]: *** [CMakeFiles/freud.dir/build.make:121: CMakeFiles/freud.dir/src/utils.c.o] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+In file included from /home/runner/work/pgi-2025-the_turquoise_dreamwalkers/pgi-2025-the_turquoise_dreamwalkers/src/main.c:9:
+/home/runner/work/pgi-2025-the_turquoise_dreamwalkers/pgi-2025-the_turquoise_dreamwalkers/src/utils.h:21:3: error: conflicting types for ‘pixelRGB’; have ‘struct <anonymous>’
+   21 | } pixelRGB;
+      |   ^~~~~~~~
+/home/runner/work/pgi-2025-the_turquoise_dreamwalkers/pgi-2025-the_turquoise_dreamwalkers/src/utils.h:16:3: note: previous declaration of ‘pixelRGB’ with type ‘pixelRGB’ {aka ‘struct _pixelRGB’}
+   16 | } pixelRGB;
+      |   ^~~~~~~~
+gmake[2]: *** [CMakeFiles/freud.dir/build.make:107: CMakeFiles/freud.dir/src/main.c.o] Error 1
+gmake[2]: *** [CMakeFiles/freud.dir/build.make:93: CMakeFiles/freud.dir/src/features.c.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:87: CMakeFiles/freud.dir/all] Error 2
+gmake: *** [Makefile:136: all] Error 2
+
+The process '/usr/local/bin/cmake' failed with exit code 2
